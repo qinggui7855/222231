@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">星际农夫</string>
+    <string name="acc_label">星际农夫 · 自动操作</string>
+    <string name="acc_desc">用于执行点击、滑动和返回操作，驱动游戏内的自动战斗与商店购买。本服务不读取窗口内容，也不上传任何数据。</string>
+</resources>

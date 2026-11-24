@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.starfarmer.bot'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.starfarmer.bot"
+        minSdk 30
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // 云打包默认产出 debug 包（自带调试签名，可直接安装）。
+            // 如需正式签名的 release 包，在 CI 里配置 keystore 后打开 signingConfig。
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+// 无第三方依赖：全部用 Android 平台 API，云端构建不需要额外仓库
