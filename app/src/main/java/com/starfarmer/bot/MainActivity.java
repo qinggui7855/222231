@@ -398,12 +398,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    public void onPictureInPictureModeChanged(boolean isInPip, PictureInPictureParams params) {
-        super.onPictureInPictureModeChanged(isInPip, params);
-        Logs.add(isInPip ? "进入小窗模式" : "退出小窗模式");
-    }
-
     private void startBot() {
         CaptureService cap = CaptureService.get();
         if (cap == null || !cap.isReady()) {
