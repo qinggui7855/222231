@@ -35,7 +35,7 @@ public final class Matcher {
         double fh = f.h / (double) refH;
 
         Template.Result best = null;
-        double bestAny = -1;
+        double bestAny = -2;   // -2 = 一个候选都没评估过（不再是 -1，便于区分）
         String bestAnyFile = "";
 
         for (String file : files) {

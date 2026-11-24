@@ -41,6 +41,8 @@ public class MainActivity extends Activity {
     private TextView logView;
     private ImageView previewView;
     private ScrollView scroller;
+    private volatile String lastLog = "";
+    private volatile int tplCount = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +55,39 @@ public class MainActivity extends Activity {
         Logs.setSink(new Logs.Sink() {
             @Override
             public void onLog(final String line) {
+                lastLog = line;
                 ui.post(new Runnable() {
                     @Override
                     public void run() {
                         appendLog(line);
+                        refreshStatus();
                     }
                 });
             }
         });
         appendLog(Logs.dump());
         requestNotifPermission();
+        // 后台数一下模板文件，直接显示在状态栏，缺图一眼可见
+        bg.post(new Runnable() {
+            @Override
+            public void run() {
+                int n = 0;
+                try {
+                    String[] fs = getAssets().list("templates");
+                    if (fs != null) {
+                        for (String f : fs) if (f.endsWith(".png")) n++;
+                    }
+                } catch (Throwable ignored) {
+                }
+                tplCount = n;
+                ui.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshStatus();
+                    }
+                });
+            }
+        });
         // 预览常驻刷新：即使 App 在小窗/后台，也能看到抓到的画面
         ui.postDelayed(previewTick, 1500);
     }
@@ -425,6 +450,12 @@ public class MainActivity extends Activity {
                 + "   " + (proj ? "投屏 ✓" : "投屏 ✗")
                 + "   " + (BotEngine.isRunning() ? "引擎 ▶ 运行中" : "引擎 ■ 停止");
         if (proj) s += "   " + cap.screenWidth() + "x" + cap.screenHeight();
+        if (tplCount >= 0) {
+            s += "   模板 " + tplCount + (tplCount == 0 ? " ✗" : "");
+        }
+        String tail = lastLog;
+        if (tail.length() > 46) tail = tail.substring(tail.length() - 46);
+        if (!tail.isEmpty()) s += "\n最后: " + tail;
         statusView.setText(s);
     }
 

@@ -4,250 +4,1085 @@
   "refH": 1156,
   "scale": 2,
   "maxRunMs": 21600000,
-  "vars": { "c": 0, "r": 0, "d": 0, "idle": 0, "m": 0, "h": 0 },
+  "vars": {
+    "c": 0,
+    "r": 0,
+    "d": 0,
+    "idle": 0,
+    "m": 0,
+    "h": 0
+  },
   "program": [
-    { "op": "label", "name": "start" },
-    { "op": "if", "t": ["merchant_banner.png", "merchant_banner_edge.png"], "thr": 0.90, "goto": "banner_hit" },
-    { "op": "goto", "label": "start2" },
-
-    { "op": "label", "name": "banner_hit" },
-    { "op": "ifgt", "var": "r", "val": 0, "goto": "start2" },
-    { "op": "set", "var": "r", "val": 1 },
-    { "op": "set", "var": "m", "val": 0 },
-    { "op": "log", "msg": "⚡ 星际商人来了，准备去采购" },
-    { "op": "goto", "label": "start2" },
-
-    { "op": "label", "name": "start2" },
-
-    { "op": "if", "t": ["sell_dialog_ok.png"], "thr": 0.86, "goto": "dismiss_sell" },
-    { "op": "if", "t": ["shop_dialog_ok.png"], "goto": "confirm_buy" },
-    { "op": "if", "t": ["shop_open.png"], "thr": 0.90, "goto": "buy_start" },
-
-    { "op": "if", "t": ["chapter7_node.png"], "thr": 0.85, "goto": "enter_stage" },
-    { "op": "if", "t": ["chapter_left.png"], "thr": 0.86, "goto": "flip_left" },
-    { "op": "if", "t": ["chapter_right.png"], "thr": 0.86, "goto": "flip_right" },
-
-    { "op": "if", "t": ["stage_play.png"], "goto": "stage_seen" },
-    { "op": "if", "t": ["result_refresh.png"], "goto": "click_refresh" },
-
-    { "op": "if", "t": ["campaign_btn.png"], "thr": 0.86, "goto": "campaign_seen" },
-    { "op": "if", "t": ["merchant_fig.png"], "goto": "merchant_seen" },
-
-    { "op": "if", "t": ["hub_top.png", "hub_gate.png"], "thr": 0.70, "goto": "hub_idle" },
-    { "op": "if", "t": ["back_arrow.png"], "goto": "press_back" },
-
-    { "op": "add", "var": "idle", "val": 1 },
-    { "op": "ifgt", "var": "idle", "val": 20, "goto": "idle_warn" },
-    { "op": "ifgt", "var": "idle", "val": 10, "goto": "blind_swipe" },
-    { "op": "sleep", "ms": 500 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "blind_swipe" },
-    { "op": "set", "var": "idle", "val": 6 },
-    { "op": "add", "var": "h", "val": 1 },
-    { "op": "ifgt", "var": "h", "val": 4, "goto": "blind_swipe_rev" },
-    { "op": "swipe", "x": 0.30, "y": 0.55, "x2": 0.82, "y2": 0.55, "ms": 350 },
-    { "op": "sleep", "ms": 700 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "blind_swipe_rev" },
-    { "op": "ifgt", "var": "h", "val": 8, "goto": "blind_swipe_reset" },
-    { "op": "swipe", "x": 0.82, "y": 0.55, "x2": 0.30, "y2": 0.55, "ms": 350 },
-    { "op": "sleep", "ms": 700 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "blind_swipe_reset" },
-    { "op": "set", "var": "h", "val": 0 },
-    { "op": "sleep", "ms": 400 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "idle_warn" },
-    { "op": "log", "msg": "⚠ 连续 20 秒没认出任何界面（多半是画面没在更新）" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "set", "var": "r", "val": 0 },
-    { "op": "set", "var": "c", "val": 0 },
-    { "op": "sleep", "ms": 500 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "stage_seen" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "ifgt", "var": "r", "val": 0, "goto": "take_back" },
-    { "op": "goto", "label": "click_play" },
-
-    { "op": "label", "name": "click_play" },
-    { "op": "set", "var": "d", "val": 0 },
-    { "op": "set", "var": "r", "val": 0 },
-    { "op": "tap", "t": ["stage_play.png"], "timeoutMs": 1200, "goto": "start" },
-    { "op": "sleep", "ms": 1400 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "take_back" },
-    { "op": "tap", "t": ["back_arrow.png"], "timeoutMs": 1500, "goto": "start" },
-    { "op": "sleep", "ms": 1600 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "click_refresh" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "tap", "t": ["result_refresh.png"], "timeoutMs": 1200, "goto": "start" },
-    { "op": "sleep", "ms": 1400 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "press_back" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "tap", "t": ["back_arrow.png"], "timeoutMs": 900, "goto": "start" },
-    { "op": "sleep", "ms": 1300 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "confirm_buy" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "tap", "t": ["shop_dialog_ok.png"], "timeoutMs": 1500, "goto": "start" },
-    { "op": "sleep", "ms": 1200 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "dismiss_sell" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "log", "msg": "🧹 关掉「卖给商人」弹窗" },
-    { "op": "tap", "t": ["sell_dialog_ok.png"], "timeoutMs": 2000, "thr": 0.86, "goto": "start" },
-    { "op": "sleep", "ms": 1200 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "campaign_seen" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "ifgt", "var": "r", "val": 0, "goto": "seek_merchant" },
-    { "op": "goto", "label": "to_chapter" },
-
-    { "op": "label", "name": "to_chapter" },
-    { "op": "set", "var": "c", "val": 0 },
-    { "op": "log", "msg": "🗺 点战役 → 翻到第七章" },
-    { "op": "tap", "t": ["campaign_btn.png"], "timeoutMs": 2000, "thr": 0.86, "goto": "start" },
-    { "op": "sleep", "ms": 1900 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "seek_merchant" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "add", "var": "m", "val": 1 },
-    { "op": "ifgt", "var": "m", "val": 10, "goto": "trip_giveup" },
-    { "op": "swipe", "x": 0.30, "y": 0.55, "x2": 0.82, "y2": 0.55, "ms": 350 },
-    { "op": "sleep", "ms": 800 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "trip_giveup" },
-    { "op": "log", "msg": "⚠ 没滑到商人，先回去刷图" },
-    { "op": "set", "var": "r", "val": 0 },
-    { "op": "set", "var": "m", "val": 0 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "merchant_seen" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "ifgt", "var": "d", "val": 0, "goto": "hub_idle" },
-    { "op": "goto", "label": "enter_shop" },
-
-    { "op": "label", "name": "enter_shop" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "log", "msg": "🧑‍🚀 点主城商人" },
-    { "op": "tap", "t": ["merchant_fig.png"], "timeoutMs": 2000, "goto": "start" },
-    { "op": "sleep", "ms": 1900 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "hub_idle" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "add", "var": "h", "val": 1 },
-    { "op": "ifgt", "var": "h", "val": 6, "goto": "hub_idle_rev" },
-    { "op": "swipe", "x": 0.82, "y": 0.55, "x2": 0.30, "y2": 0.55, "ms": 350 },
-    { "op": "sleep", "ms": 800 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "hub_idle_rev" },
-    { "op": "ifgt", "var": "h", "val": 12, "goto": "hub_idle_reset" },
-    { "op": "swipe", "x": 0.30, "y": 0.55, "x2": 0.82, "y2": 0.55, "ms": 350 },
-    { "op": "sleep", "ms": 800 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "hub_idle_reset" },
-    { "op": "set", "var": "h", "val": 0 },
-    { "op": "sleep", "ms": 500 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "buy_start" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "log", "msg": "🛒 商店已开，采购 1/2/3 号箱子" },
-    { "op": "goto", "label": "buy1" },
-
-    { "op": "label", "name": "buy1" },
-    { "op": "tapxy", "x": 0.301, "y": 0.551 },
-    { "op": "if", "t": ["shop_dialog_ok.png"], "timeoutMs": 1800, "goto": "do_buy1" },
-    { "op": "goto", "label": "buy2" },
-    { "op": "label", "name": "do_buy1" },
-    { "op": "tap", "t": ["shop_dialog_ok.png"], "timeoutMs": 1500, "goto": "buy2" },
-    { "op": "sleep", "ms": 1200 },
-    { "op": "goto", "label": "buy2" },
-
-    { "op": "label", "name": "buy2" },
-    { "op": "tapxy", "x": 0.500, "y": 0.551 },
-    { "op": "if", "t": ["shop_dialog_ok.png"], "timeoutMs": 1800, "goto": "do_buy2" },
-    { "op": "goto", "label": "buy3" },
-    { "op": "label", "name": "do_buy2" },
-    { "op": "tap", "t": ["shop_dialog_ok.png"], "timeoutMs": 1500, "goto": "buy3" },
-    { "op": "sleep", "ms": 1200 },
-    { "op": "goto", "label": "buy3" },
-
-    { "op": "label", "name": "buy3" },
-    { "op": "tapxy", "x": 0.732, "y": 0.551 },
-    { "op": "if", "t": ["shop_dialog_ok.png"], "timeoutMs": 1800, "goto": "do_buy3" },
-    { "op": "goto", "label": "shop_leave" },
-    { "op": "label", "name": "do_buy3" },
-    { "op": "tap", "t": ["shop_dialog_ok.png"], "timeoutMs": 1500, "goto": "shop_leave" },
-    { "op": "sleep", "ms": 1200 },
-    { "op": "goto", "label": "shop_leave" },
-
-    { "op": "label", "name": "shop_leave" },
-    { "op": "set", "var": "d", "val": 1 },
-    { "op": "set", "var": "r", "val": 0 },
-    { "op": "set", "var": "c", "val": 0 },
-    { "op": "log", "msg": "✅ 采购结束，关店回主城" },
-    { "op": "tap", "t": ["back_arrow.png"], "timeoutMs": 2000, "goto": "start" },
-    { "op": "sleep", "ms": 1700 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "flip_left" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "set", "var": "c", "val": 0 },
-    { "op": "label", "name": "fl_loop" },
-    { "op": "if", "t": ["chapter7_node.png"], "thr": 0.85, "goto": "enter_stage" },
-    { "op": "add", "var": "c", "val": 1 },
-    { "op": "ifgt", "var": "c", "val": 20, "goto": "flip_right" },
-    { "op": "tap", "t": ["chapter_left.png"], "timeoutMs": 900, "thr": 0.86, "goto": "fl_retry" },
-    { "op": "sleep", "ms": 650 },
-    { "op": "goto", "label": "fl_loop" },
-    { "op": "label", "name": "fl_retry" },
-    { "op": "sleep", "ms": 300 },
-    { "op": "goto", "label": "fl_loop" },
-
-    { "op": "label", "name": "flip_right" },
-    { "op": "set", "var": "c", "val": 0 },
-    { "op": "label", "name": "fr_loop" },
-    { "op": "if", "t": ["chapter7_node.png"], "thr": 0.85, "goto": "enter_stage" },
-    { "op": "add", "var": "c", "val": 1 },
-    { "op": "ifgt", "var": "c", "val": 24, "goto": "fail" },
-    { "op": "tap", "t": ["chapter_right.png"], "timeoutMs": 900, "thr": 0.86, "goto": "fr_retry" },
-    { "op": "sleep", "ms": 650 },
-    { "op": "goto", "label": "fr_loop" },
-    { "op": "label", "name": "fr_retry" },
-    { "op": "sleep", "ms": 300 },
-    { "op": "goto", "label": "fr_loop" },
-
-    { "op": "label", "name": "enter_stage" },
-    { "op": "set", "var": "idle", "val": 0 },
-    { "op": "log", "msg": "✅ 第七章，点关卡回副本页" },
-    { "op": "tap", "t": ["chapter7_node.png"], "timeoutMs": 2500, "thr": 0.85, "goto": "fail" },
-    { "op": "sleep", "ms": 2000 },
-    { "op": "set", "var": "d", "val": 0 },
-    { "op": "set", "var": "r", "val": 0 },
-    { "op": "set", "var": "c", "val": 0 },
-    { "op": "goto", "label": "start" },
-
-    { "op": "label", "name": "fail" },
-    { "op": "log", "msg": "⚠ 流程卡住：翻章失败，请人工看一眼游戏" },
-    { "op": "stop", "msg": "已停止" }
+    {
+      "op": "label",
+      "name": "start"
+    },
+    {
+      "op": "if",
+      "t": [
+        "merchant_banner.png",
+        "merchant_banner_edge.png"
+      ],
+      "thr": 0.9,
+      "goto": "banner_hit"
+    },
+    {
+      "op": "goto",
+      "label": "start2"
+    },
+    {
+      "op": "label",
+      "name": "banner_hit"
+    },
+    {
+      "op": "ifgt",
+      "var": "r",
+      "val": 0,
+      "goto": "start2"
+    },
+    {
+      "op": "set",
+      "var": "r",
+      "val": 1
+    },
+    {
+      "op": "set",
+      "var": "m",
+      "val": 0
+    },
+    {
+      "op": "log",
+      "msg": "⚡ 星际商人来了，准备去采购"
+    },
+    {
+      "op": "goto",
+      "label": "start2"
+    },
+    {
+      "op": "label",
+      "name": "start2"
+    },
+    {
+      "op": "if",
+      "t": [
+        "sell_dialog_ok.png"
+      ],
+      "thr": 0.86,
+      "goto": "dismiss_sell"
+    },
+    {
+      "op": "if",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "goto": "confirm_buy"
+    },
+    {
+      "op": "if",
+      "t": [
+        "shop_open.png"
+      ],
+      "thr": 0.9,
+      "goto": "buy_start"
+    },
+    {
+      "op": "if",
+      "t": [
+        "chapter7_node.png"
+      ],
+      "thr": 0.9,
+      "goto": "enter_stage"
+    },
+    {
+      "op": "if",
+      "t": [
+        "chapter_left.png"
+      ],
+      "thr": 0.88,
+      "goto": "flip_left",
+      "roi": [
+        0.04,
+        0.34,
+        0.26,
+        0.32
+      ]
+    },
+    {
+      "op": "if",
+      "t": [
+        "chapter_right.png"
+      ],
+      "thr": 0.88,
+      "goto": "flip_right",
+      "roi": [
+        0.68,
+        0.34,
+        0.29,
+        0.32
+      ]
+    },
+    {
+      "op": "if",
+      "t": [
+        "stage_play.png"
+      ],
+      "goto": "stage_seen"
+    },
+    {
+      "op": "if",
+      "t": [
+        "result_refresh.png"
+      ],
+      "goto": "click_refresh"
+    },
+    {
+      "op": "if",
+      "t": [
+        "campaign_btn.png"
+      ],
+      "thr": 0.88,
+      "goto": "campaign_seen"
+    },
+    {
+      "op": "if",
+      "t": [
+        "merchant_fig.png"
+      ],
+      "goto": "merchant_seen"
+    },
+    {
+      "op": "if",
+      "t": [
+        "hub_top.png",
+        "hub_gate.png"
+      ],
+      "thr": 0.7,
+      "goto": "hub_idle"
+    },
+    {
+      "op": "if",
+      "t": [
+        "back_arrow.png"
+      ],
+      "goto": "press_back"
+    },
+    {
+      "op": "add",
+      "var": "idle",
+      "val": 1
+    },
+    {
+      "op": "ifgt",
+      "var": "idle",
+      "val": 20,
+      "goto": "idle_warn"
+    },
+    {
+      "op": "ifgt",
+      "var": "idle",
+      "val": 10,
+      "goto": "blind_swipe"
+    },
+    {
+      "op": "sleep",
+      "ms": 500
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "blind_swipe"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 6
+    },
+    {
+      "op": "add",
+      "var": "h",
+      "val": 1
+    },
+    {
+      "op": "ifgt",
+      "var": "h",
+      "val": 4,
+      "goto": "blind_swipe_rev"
+    },
+    {
+      "op": "swipe",
+      "x": 0.3,
+      "y": 0.55,
+      "x2": 0.82,
+      "y2": 0.55,
+      "ms": 350
+    },
+    {
+      "op": "sleep",
+      "ms": 700
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "blind_swipe_rev"
+    },
+    {
+      "op": "ifgt",
+      "var": "h",
+      "val": 8,
+      "goto": "blind_swipe_reset"
+    },
+    {
+      "op": "swipe",
+      "x": 0.82,
+      "y": 0.55,
+      "x2": 0.3,
+      "y2": 0.55,
+      "ms": 350
+    },
+    {
+      "op": "sleep",
+      "ms": 700
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "blind_swipe_reset"
+    },
+    {
+      "op": "set",
+      "var": "h",
+      "val": 0
+    },
+    {
+      "op": "sleep",
+      "ms": 400
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "idle_warn"
+    },
+    {
+      "op": "log",
+      "msg": "⚠ 连续 20 秒没认出任何界面（多半是画面没在更新）"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "r",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "c",
+      "val": 0
+    },
+    {
+      "op": "sleep",
+      "ms": 500
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "stage_seen"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "ifgt",
+      "var": "r",
+      "val": 0,
+      "goto": "take_back"
+    },
+    {
+      "op": "goto",
+      "label": "click_play"
+    },
+    {
+      "op": "label",
+      "name": "click_play"
+    },
+    {
+      "op": "set",
+      "var": "d",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "r",
+      "val": 0
+    },
+    {
+      "op": "tap",
+      "t": [
+        "stage_play.png"
+      ],
+      "timeoutMs": 1200,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1400
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "take_back"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "back_arrow.png"
+      ],
+      "timeoutMs": 1500,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1600
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "click_refresh"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "tap",
+      "t": [
+        "result_refresh.png"
+      ],
+      "timeoutMs": 1200,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1400
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "press_back"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "tap",
+      "t": [
+        "back_arrow.png"
+      ],
+      "timeoutMs": 900,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1300
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "confirm_buy"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "tap",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "timeoutMs": 1500,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1200
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "dismiss_sell"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "log",
+      "msg": "🧹 关掉「卖给商人」弹窗"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "sell_dialog_ok.png"
+      ],
+      "timeoutMs": 2000,
+      "thr": 0.86,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1200
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "campaign_seen"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "ifgt",
+      "var": "r",
+      "val": 0,
+      "goto": "seek_merchant"
+    },
+    {
+      "op": "goto",
+      "label": "to_chapter"
+    },
+    {
+      "op": "label",
+      "name": "to_chapter"
+    },
+    {
+      "op": "set",
+      "var": "c",
+      "val": 0
+    },
+    {
+      "op": "log",
+      "msg": "🗺 点战役 → 翻到第七章"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "campaign_btn.png"
+      ],
+      "timeoutMs": 2000,
+      "thr": 0.88,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1900
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "seek_merchant"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "add",
+      "var": "m",
+      "val": 1
+    },
+    {
+      "op": "ifgt",
+      "var": "m",
+      "val": 10,
+      "goto": "trip_giveup"
+    },
+    {
+      "op": "swipe",
+      "x": 0.3,
+      "y": 0.55,
+      "x2": 0.82,
+      "y2": 0.55,
+      "ms": 350
+    },
+    {
+      "op": "sleep",
+      "ms": 800
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "trip_giveup"
+    },
+    {
+      "op": "log",
+      "msg": "⚠ 没滑到商人，先回去刷图"
+    },
+    {
+      "op": "set",
+      "var": "r",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "m",
+      "val": 0
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "merchant_seen"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "ifgt",
+      "var": "d",
+      "val": 0,
+      "goto": "hub_idle"
+    },
+    {
+      "op": "goto",
+      "label": "enter_shop"
+    },
+    {
+      "op": "label",
+      "name": "enter_shop"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "log",
+      "msg": "🧑‍🚀 点主城商人"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "merchant_fig.png"
+      ],
+      "timeoutMs": 2000,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1900
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "hub_idle"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "add",
+      "var": "h",
+      "val": 1
+    },
+    {
+      "op": "ifgt",
+      "var": "h",
+      "val": 6,
+      "goto": "hub_idle_rev"
+    },
+    {
+      "op": "swipe",
+      "x": 0.82,
+      "y": 0.55,
+      "x2": 0.3,
+      "y2": 0.55,
+      "ms": 350
+    },
+    {
+      "op": "sleep",
+      "ms": 800
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "hub_idle_rev"
+    },
+    {
+      "op": "ifgt",
+      "var": "h",
+      "val": 12,
+      "goto": "hub_idle_reset"
+    },
+    {
+      "op": "swipe",
+      "x": 0.3,
+      "y": 0.55,
+      "x2": 0.82,
+      "y2": 0.55,
+      "ms": 350
+    },
+    {
+      "op": "sleep",
+      "ms": 800
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "hub_idle_reset"
+    },
+    {
+      "op": "set",
+      "var": "h",
+      "val": 0
+    },
+    {
+      "op": "sleep",
+      "ms": 500
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "buy_start"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "log",
+      "msg": "🛒 商店已开，采购 1/2/3 号箱子"
+    },
+    {
+      "op": "goto",
+      "label": "buy1"
+    },
+    {
+      "op": "label",
+      "name": "buy1"
+    },
+    {
+      "op": "tapxy",
+      "x": 0.301,
+      "y": 0.551
+    },
+    {
+      "op": "if",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "timeoutMs": 1800,
+      "goto": "do_buy1"
+    },
+    {
+      "op": "goto",
+      "label": "buy2"
+    },
+    {
+      "op": "label",
+      "name": "do_buy1"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "timeoutMs": 1500,
+      "goto": "buy2"
+    },
+    {
+      "op": "sleep",
+      "ms": 1200
+    },
+    {
+      "op": "goto",
+      "label": "buy2"
+    },
+    {
+      "op": "label",
+      "name": "buy2"
+    },
+    {
+      "op": "tapxy",
+      "x": 0.5,
+      "y": 0.551
+    },
+    {
+      "op": "if",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "timeoutMs": 1800,
+      "goto": "do_buy2"
+    },
+    {
+      "op": "goto",
+      "label": "buy3"
+    },
+    {
+      "op": "label",
+      "name": "do_buy2"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "timeoutMs": 1500,
+      "goto": "buy3"
+    },
+    {
+      "op": "sleep",
+      "ms": 1200
+    },
+    {
+      "op": "goto",
+      "label": "buy3"
+    },
+    {
+      "op": "label",
+      "name": "buy3"
+    },
+    {
+      "op": "tapxy",
+      "x": 0.732,
+      "y": 0.551
+    },
+    {
+      "op": "if",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "timeoutMs": 1800,
+      "goto": "do_buy3"
+    },
+    {
+      "op": "goto",
+      "label": "shop_leave"
+    },
+    {
+      "op": "label",
+      "name": "do_buy3"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "shop_dialog_ok.png"
+      ],
+      "timeoutMs": 1500,
+      "goto": "shop_leave"
+    },
+    {
+      "op": "sleep",
+      "ms": 1200
+    },
+    {
+      "op": "goto",
+      "label": "shop_leave"
+    },
+    {
+      "op": "label",
+      "name": "shop_leave"
+    },
+    {
+      "op": "set",
+      "var": "d",
+      "val": 1
+    },
+    {
+      "op": "set",
+      "var": "r",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "c",
+      "val": 0
+    },
+    {
+      "op": "log",
+      "msg": "✅ 采购结束，关店回主城"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "back_arrow.png"
+      ],
+      "timeoutMs": 2000,
+      "goto": "start"
+    },
+    {
+      "op": "sleep",
+      "ms": 1700
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "flip_left"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "c",
+      "val": 0
+    },
+    {
+      "op": "label",
+      "name": "fl_loop"
+    },
+    {
+      "op": "if",
+      "t": [
+        "chapter7_node.png"
+      ],
+      "thr": 0.9,
+      "goto": "enter_stage"
+    },
+    {
+      "op": "add",
+      "var": "c",
+      "val": 1
+    },
+    {
+      "op": "ifgt",
+      "var": "c",
+      "val": 20,
+      "goto": "flip_right"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "chapter_left.png"
+      ],
+      "timeoutMs": 900,
+      "thr": 0.88,
+      "goto": "fl_retry",
+      "roi": [
+        0.04,
+        0.34,
+        0.26,
+        0.32
+      ]
+    },
+    {
+      "op": "sleep",
+      "ms": 650
+    },
+    {
+      "op": "goto",
+      "label": "fl_loop"
+    },
+    {
+      "op": "label",
+      "name": "fl_retry"
+    },
+    {
+      "op": "sleep",
+      "ms": 300
+    },
+    {
+      "op": "goto",
+      "label": "fl_loop"
+    },
+    {
+      "op": "label",
+      "name": "flip_right"
+    },
+    {
+      "op": "set",
+      "var": "c",
+      "val": 0
+    },
+    {
+      "op": "label",
+      "name": "fr_loop"
+    },
+    {
+      "op": "if",
+      "t": [
+        "chapter7_node.png"
+      ],
+      "thr": 0.9,
+      "goto": "enter_stage"
+    },
+    {
+      "op": "add",
+      "var": "c",
+      "val": 1
+    },
+    {
+      "op": "ifgt",
+      "var": "c",
+      "val": 24,
+      "goto": "fail"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "chapter_right.png"
+      ],
+      "timeoutMs": 900,
+      "thr": 0.88,
+      "goto": "fr_retry",
+      "roi": [
+        0.68,
+        0.34,
+        0.29,
+        0.32
+      ]
+    },
+    {
+      "op": "sleep",
+      "ms": 650
+    },
+    {
+      "op": "goto",
+      "label": "fr_loop"
+    },
+    {
+      "op": "label",
+      "name": "fr_retry"
+    },
+    {
+      "op": "sleep",
+      "ms": 300
+    },
+    {
+      "op": "goto",
+      "label": "fr_loop"
+    },
+    {
+      "op": "label",
+      "name": "enter_stage"
+    },
+    {
+      "op": "set",
+      "var": "idle",
+      "val": 0
+    },
+    {
+      "op": "log",
+      "msg": "✅ 第七章，点关卡回副本页"
+    },
+    {
+      "op": "tap",
+      "t": [
+        "chapter7_node.png"
+      ],
+      "timeoutMs": 2500,
+      "thr": 0.9,
+      "goto": "fail"
+    },
+    {
+      "op": "sleep",
+      "ms": 2000
+    },
+    {
+      "op": "set",
+      "var": "d",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "r",
+      "val": 0
+    },
+    {
+      "op": "set",
+      "var": "c",
+      "val": 0
+    },
+    {
+      "op": "goto",
+      "label": "start"
+    },
+    {
+      "op": "label",
+      "name": "fail"
+    },
+    {
+      "op": "log",
+      "msg": "⚠ 流程卡住：翻章失败，请人工看一眼游戏"
+    },
+    {
+      "op": "stop",
+      "msg": "已停止"
+    }
   ]
 }

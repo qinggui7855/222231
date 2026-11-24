@@ -97,16 +97,21 @@ public final class BotEngine {
             return;
         }
         // 启动时把模板清单打出来：目录空 = APK 里没打进图，一眼就能看出
+        int tplCount = 0;
         try {
             String[] tpl = ctx.getAssets().list("templates");
-            int n = tpl == null ? 0 : tpl.length;
-            if (n == 0) {
-                Logs.add("⚠ assets/templates 是空的！模板图没打进 APK");
+            tplCount = tpl == null ? 0 : tpl.length;
+            if (tplCount == 0) {
+                Logs.add("⚠ assets/templates 是空的！模板图没打进 APK，脚本无法工作");
             } else {
-                Logs.add("模板目录: " + n + " 个文件（如 " + tpl[0] + "）");
+                Logs.add("模板目录: " + tplCount + " 个文件（如 " + tpl[0] + "）");
             }
         } catch (Throwable e) {
             Logs.add("⚠ 读不到 assets/templates: " + e);
+        }
+        if (tplCount == 0) {
+            Logs.add("已停止：请确认仓库里 app/src/main/assets/templates 有 15 个 png");
+            return;
         }
         matcher = new Matcher(ctx, prog.scale, prog.refW, prog.refH);
         vars = new HashMap<>(prog.vars);
@@ -248,8 +253,9 @@ public final class BotEngine {
                 cnt++;
             }
             Logs.add(String.format(Locale.CHINA,
-                    "… 没匹配上（画面 %dx%d 亮度 %d，最近最高分 %.3f 是 %s）",
-                    g.w, g.h, sum / Math.max(1, cnt), matcher.lastScore,
+                    "… 没匹配上（画面 %dx%d 亮度 %d，候选 %d/%d，最高分 %.3f %s）",
+                    g.w, g.h, sum / Math.max(1, cnt),
+                    Template.lastPass, Template.lastPositions, matcher.lastScore,
                     matcher.lastFile.isEmpty() ? "无" : matcher.lastFile));
         }
     }

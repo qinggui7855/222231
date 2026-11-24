@@ -100,9 +100,15 @@ public final class Template {
         return t;
     }
 
+    /** 诊断用：上一次搜索里，扫描了多少个位置、多少个通过了预筛 */
+    public static volatile int lastPositions = 0;
+    public static volatile int lastPass = 0;
+
     /** 在 roi（帧坐标）内搜索；总是返回找到的最高分位置，阈值由 Matcher 判断。 */
     public static Result search(Gray f, Integral integ, Template t,
                                 int rx, int ry, int rw, int rh) {
+        lastPositions = 0;
+        lastPass = 0;
         if (t == null) return null;
         if (t.w > f.w || t.h > f.h) return null;
 
@@ -125,10 +131,12 @@ public final class Template {
         int by = y0;
         for (int y = y0; y <= maxY; y += coarse) {
             for (int x = x0; x <= maxX; x += coarse) {
+                lastPositions++;
                 double mI = integ.mean(x, y, t.w, t.h);
-                if (Math.abs(mI - t.mean) > 44) continue;
+                if (Math.abs(mI - t.mean) > 80) continue;
                 double vI = integ.variance(x, y, t.w, t.h, mI);
-                if (vI < t.var * 0.08) continue;
+                if (vI < t.var * 0.03) continue;
+                lastPass++;
                 double s = zncc(f, t, x, y);
                 if (s > best) {
                     best = s;
