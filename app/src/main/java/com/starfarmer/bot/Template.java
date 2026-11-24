@@ -88,9 +88,11 @@ public final class Template {
                 }
                 bmp.recycle();
                 t = new Template(file, tw, th, g);
+            } else {
+                Logs.add("模板解码失败（文件可能损坏）: " + file);
             }
         } catch (Throwable e) {
-            Logs.add("模板缺失或损坏: " + file);
+            Logs.add("模板缺失或损坏: " + file + " → " + e);
         }
         synchronized (CACHE) {
             CACHE.put(key, t);

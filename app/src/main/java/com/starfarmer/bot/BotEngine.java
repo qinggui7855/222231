@@ -96,14 +96,38 @@ public final class BotEngine {
             Logs.add("program.json 里没有指令");
             return;
         }
+        // 启动时把模板清单打出来：目录空 = APK 里没打进图，一眼就能看出
+        try {
+            String[] tpl = ctx.getAssets().list("templates");
+            int n = tpl == null ? 0 : tpl.length;
+            if (n == 0) {
+                Logs.add("⚠ assets/templates 是空的！模板图没打进 APK");
+            } else {
+                Logs.add("模板目录: " + n + " 个文件（如 " + tpl[0] + "）");
+            }
+        } catch (Throwable e) {
+            Logs.add("⚠ 读不到 assets/templates: " + e);
+        }
         matcher = new Matcher(ctx, prog.scale, prog.refW, prog.refH);
         vars = new HashMap<>(prog.vars);
 
         Gray probe = cap.grab(prog.scale);
         if (probe != null) {
-            Logs.add(String.format(Locale.CHINA, "画面 %dx%d / 屏幕 %dx%d / 模板缩放 %.3f",
+            int min = 255, max = 0;
+            long sum = 0;
+            for (int i = 0; i < probe.p.length; i++) {
+                int v = probe.p[i] & 0xff;
+                if (v < min) min = v;
+                if (v > max) max = v;
+                sum += v;
+            }
+            long mean = sum / probe.p.length;
+            Logs.add(String.format(Locale.CHINA, "画面 %dx%d / 屏幕 %dx%d / 模板缩放 %.3f / 亮度均值 %d",
                     probe.w, probe.h, cap.screenWidth(), cap.screenHeight(),
-                    probe.w / (double) prog.refW));
+                    probe.w / (double) prog.refW, mean));
+            if (mean < 8 && max < 40) {
+                Logs.add("⚠ 抓到的是黑屏！投屏范围选错了（选“整个屏幕”，或选“单个应用”并挑游戏）");
+            }
         }
 
         int pc = 0;
@@ -213,13 +237,20 @@ public final class BotEngine {
 
     // ---------------- 工具 ----------------
 
-    /** 记录一次未命中，每 40 次打一条诊断（含全场最高分），方便排查"什么都不认"的情况。 */
+    /** 记录一次未命中，每 40 次打一条诊断（含全场最高分与画面亮度），方便排查"什么都不认"。 */
     private void noteMiss(Gray g) {
         miss++;
         if (miss % 40 == 0) {
+            long sum = 0;
+            int cnt = 0;
+            for (int i = 0; i < g.p.length; i += 8) {
+                sum += g.p[i] & 0xff;
+                cnt++;
+            }
             Logs.add(String.format(Locale.CHINA,
-                    "… 没匹配上（画面 %dx%d，最近最高分 %.3f 是 %s）",
-                    g.w, g.h, matcher.lastScore, matcher.lastFile));
+                    "… 没匹配上（画面 %dx%d 亮度 %d，最近最高分 %.3f 是 %s）",
+                    g.w, g.h, sum / Math.max(1, cnt), matcher.lastScore,
+                    matcher.lastFile.isEmpty() ? "无" : matcher.lastFile));
         }
     }
 

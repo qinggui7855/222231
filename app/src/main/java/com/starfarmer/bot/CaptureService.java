@@ -137,7 +137,7 @@ public class CaptureService extends Service {
             screenH = b.height();
             density = getResources().getDisplayMetrics().densityDpi;
 
-            reader = ImageReader.newInstance(screenW, screenH, PixelFormat.RGBA_8888, 3);
+            reader = ImageReader.newInstance(screenW, screenH, PixelFormat.RGBA_8888, 4);
             display = projection.createVirtualDisplay(
                     "sf-capture",
                     screenW, screenH, density,
