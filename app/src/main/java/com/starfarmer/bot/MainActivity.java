@@ -148,7 +148,7 @@ public class MainActivity extends Activity {
         previewView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         previewView.setBackgroundColor(Color.rgb(24, 24, 28));
         LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(118));
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(96));
         plp.setMargins(0, 0, 0, dp(6));
         root.addView(previewView, plp);
 
@@ -249,7 +249,7 @@ public class MainActivity extends Activity {
         logView.setMovementMethod(new ScrollingMovementMethod());
         logView.setGravity(Gravity.TOP | Gravity.START);
         LinearLayout.LayoutParams logLp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(150));
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(190));
         logLp.setMargins(0, dp(8), 0, 0);
         root.addView(logView, logLp);
 
@@ -300,14 +300,19 @@ public class MainActivity extends Activity {
     private void appendLog(String line) {
         if (logView == null) return;
         logView.append(line + "\n");
-        if (scroller != null) {
-            scroller.post(new Runnable() {
-                @Override
-                public void run() {
-                    scroller.fullScroll(View.FOCUS_DOWN);
+        // 自动滚到最新一行：日志区是固定高度，不滚就只看得到开头
+        logView.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (logView.getLayout() == null) return;
+                    int bottom = logView.getLayout().getLineTop(logView.getLineCount());
+                    int max = Math.max(0, bottom - logView.getHeight());
+                    logView.scrollTo(0, max);
+                } catch (Throwable ignored) {
                 }
-            });
-        }
+            }
+        });
     }
 
     /** 一键自检：资产目录、每个模板能否载入、当前帧亮度、几个关键模板的最高分。 */

@@ -38,6 +38,11 @@ public class CaptureService extends Service {
 
     private static volatile CaptureService sInstance;
 
+    /** 每个 scale 的上一帧，用于画面静止时的复用 */
+    private static final java.util.Map<Integer, Gray> LAST_GRAY = new java.util.HashMap<>();
+    private static final java.util.Map<Integer, Long> LAST_AT = new java.util.HashMap<>();
+    private volatile int missStreak;
+
     public static CaptureService get() {
         return sInstance;
     }
@@ -169,10 +174,24 @@ public class CaptureService extends Service {
         return null;
     }
 
-    /** 抓一帧并缩放成灰度图；scale 建议 2（1080x2400 → 540x1200）。 */
+    /** 抓一帧并缩放成灰度图；scale 建议 2（1080x2400 → 540x1200）。
+     *  画面静止时系统可能不推新帧，这时复用上一帧（4 秒内），避免整条流程空转。 */
     public Gray grab(int scale) {
-        Image img = acquire(900);
-        if (img == null) return null;
+        Image img = acquire(400);
+        if (img == null) {
+            Gray cached = LAST_GRAY.get(scale);
+            Long at = LAST_AT.get(scale);
+            long now = SystemClock.uptimeMillis();
+            if (cached != null && at != null && now - at < 4000) {
+                missStreak++;
+                if (missStreak % 24 == 1) {
+                    Logs.add("没拿到新帧（画面静止），先用上一帧，连续 " + missStreak + " 次");
+                }
+                return cached;
+            }
+            return null;
+        }
+        missStreak = 0;
         try {
             Image.Plane plane = img.getPlanes()[0];
             ByteBuffer buf = plane.getBuffer();
@@ -199,7 +218,10 @@ public class CaptureService extends Service {
                     out[o + x] = (byte) ((r * 77 + g * 151 + bl * 28) >> 8);
                 }
             }
-            return new Gray(gw, gh, out);
+            Gray result = new Gray(gw, gh, out);
+            LAST_GRAY.put(scale, result);
+            LAST_AT.put(scale, SystemClock.uptimeMillis());
+            return result;
         } catch (Throwable t) {
             Logs.add("抓帧失败: " + t);
             return null;
