@@ -126,6 +126,9 @@ public final class Template {
         int maxY = y1 - t.h;
 
         final int coarse = 4;
+        // 注意量纲：t.var 是模板的方差总和，vI 是每像素方差，
+        // 所以先换算成「每像素」再比，否则永远判为低对比度（这曾是本项目的头号 bug）。
+        final double varPerPx = t.var / (double) (t.w * t.h);
         double best = -2;
         int bx = x0;
         int by = y0;
@@ -133,9 +136,9 @@ public final class Template {
             for (int x = x0; x <= maxX; x += coarse) {
                 lastPositions++;
                 double mI = integ.mean(x, y, t.w, t.h);
-                if (Math.abs(mI - t.mean) > 80) continue;
+                if (Math.abs(mI - t.mean) > 25) continue;
                 double vI = integ.variance(x, y, t.w, t.h, mI);
-                if (vI < t.var * 0.03) continue;
+                if (vI < varPerPx * 0.75) continue;
                 lastPass++;
                 double s = zncc(f, t, x, y);
                 if (s > best) {
