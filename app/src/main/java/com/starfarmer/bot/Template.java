@@ -98,9 +98,9 @@ public final class Template {
         return t;
     }
 
-    /** 在 roi（帧坐标）内搜索；返回最高分且 >= thr 的结果。 */
+    /** 在 roi（帧坐标）内搜索；总是返回找到的最高分位置，阈值由 Matcher 判断。 */
     public static Result search(Gray f, Integral integ, Template t,
-                                int rx, int ry, int rw, int rh, double thr) {
+                                int rx, int ry, int rw, int rh) {
         if (t == null) return null;
         if (t.w > f.w || t.h > f.h) return null;
 
@@ -135,7 +135,7 @@ public final class Template {
                 }
             }
         }
-        if (best < thr) return null;
+        if (best < -1.5) return new Result(best, bx + t.w / 2, by + t.h / 2);
 
         int rx0 = Math.max(x0, bx - coarse);
         int ry0 = Math.max(y0, by - coarse);
@@ -151,7 +151,6 @@ public final class Template {
                 }
             }
         }
-        if (best < thr) return null;
         return new Result(best, bx + t.w / 2, by + t.h / 2);
     }
 

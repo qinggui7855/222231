@@ -28,6 +28,7 @@ public final class BotEngine {
     private Gray cachedFrame;
     private Integral cachedIntegral;
     private long cachedAt;
+    private int miss;
 
     private BotEngine(Context ctx) {
         this.ctx = ctx;
@@ -97,6 +98,13 @@ public final class BotEngine {
         }
         matcher = new Matcher(ctx, prog.scale, prog.refW, prog.refH);
         vars = new HashMap<>(prog.vars);
+
+        Gray probe = cap.grab(prog.scale);
+        if (probe != null) {
+            Logs.add(String.format(Locale.CHINA, "画面 %dx%d / 屏幕 %dx%d / 模板缩放 %.3f",
+                    probe.w, probe.h, cap.screenWidth(), cap.screenHeight(),
+                    probe.w / (double) prog.refW));
+        }
 
         int pc = 0;
         long startAt = System.currentTimeMillis();
@@ -205,6 +213,16 @@ public final class BotEngine {
 
     // ---------------- 工具 ----------------
 
+    /** 记录一次未命中，每 40 次打一条诊断（含全场最高分），方便排查"什么都不认"的情况。 */
+    private void noteMiss(Gray g) {
+        miss++;
+        if (miss % 40 == 0) {
+            Logs.add(String.format(Locale.CHINA,
+                    "… 没匹配上（画面 %dx%d，最近最高分 %.3f 是 %s）",
+                    g.w, g.h, matcher.lastScore, matcher.lastFile));
+        }
+    }
+
     private int jump(String label, int fallback) {
         if (label == null || label.isEmpty()) return fallback;
         int idx = prog.labelIndex(label);
@@ -258,7 +276,11 @@ public final class BotEngine {
                     };
                 }
                 Template.Result r = matcher.find(g, cachedIntegral, in.t, roi, in.thr);
-                if (r != null) return r;
+                if (r != null) {
+                    miss = 0;
+                    return r;
+                }
+                noteMiss(g);
             }
             if (timeoutMs <= 0) return null;
             if (SystemClock.uptimeMillis() >= end) return null;
