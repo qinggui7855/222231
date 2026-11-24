@@ -68,14 +68,26 @@
     "sell_dialog_ok.png"
    ],
    "thr": 0.86,
-   "goto": "dismiss_sell"
+   "goto": "dismiss_sell",
+   "roi": [
+    0.37,
+    0.61,
+    0.2,
+    0.15
+   ]
   },
   {
    "op": "if",
    "t": [
     "shop_dialog_ok.png"
    ],
-   "goto": "confirm_buy"
+   "goto": "confirm_buy",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "if",
@@ -83,7 +95,13 @@
     "shop_open.png"
    ],
    "thr": 0.9,
-   "goto": "buy_start"
+   "goto": "buy_start",
+   "roi": [
+    0.16,
+    0.13,
+    0.2,
+    0.16
+   ]
   },
   {
    "op": "if",
@@ -91,7 +109,13 @@
     "chapter7_node.png"
    ],
    "thr": 0.9,
-   "goto": "enter_stage"
+   "goto": "enter_stage",
+   "roi": [
+    0.55,
+    0.5,
+    0.25,
+    0.25
+   ]
   },
   {
    "op": "if",
@@ -99,7 +123,7 @@
     "chapter_left.png"
    ],
    "thr": 0.88,
-   "goto": "tap_left_tpl",
+   "goto": "chapter_nav",
    "roi": [
     0.04,
     0.34,
@@ -113,21 +137,39 @@
     "chapter_bar.png"
    ],
    "thr": 0.8,
-   "goto": "chapter_nav"
+   "goto": "chapter_nav",
+   "roi": [
+    0.56,
+    0.1,
+    0.28,
+    0.18
+   ]
   },
   {
    "op": "if",
    "t": [
     "stage_play.png"
    ],
-   "goto": "stage_seen"
+   "goto": "stage_seen",
+   "roi": [
+    0.7,
+    0.67,
+    0.22,
+    0.22
+   ]
   },
   {
    "op": "if",
    "t": [
     "result_refresh.png"
    ],
-   "goto": "click_refresh"
+   "goto": "click_refresh",
+   "roi": [
+    0.68,
+    0.22,
+    0.22,
+    0.2
+   ]
   },
   {
    "op": "if",
@@ -158,7 +200,13 @@
    "t": [
     "back_arrow.png"
    ],
-   "goto": "press_back"
+   "goto": "press_back",
+   "roi": [
+    0.03,
+    0.02,
+    0.15,
+    0.13
+   ]
   },
   {
    "op": "add",
@@ -266,7 +314,13 @@
     "stage_play.png"
    ],
    "timeoutMs": 1200,
-   "goto": "start"
+   "goto": "start",
+   "roi": [
+    0.7,
+    0.67,
+    0.22,
+    0.22
+   ]
   },
   {
    "op": "sleep",
@@ -299,7 +353,13 @@
     "back_arrow.png"
    ],
    "timeoutMs": 1500,
-   "goto": "start"
+   "goto": "start",
+   "roi": [
+    0.03,
+    0.02,
+    0.15,
+    0.13
+   ]
   },
   {
    "op": "sleep",
@@ -324,7 +384,13 @@
     "result_refresh.png"
    ],
    "timeoutMs": 1200,
-   "goto": "start"
+   "goto": "start",
+   "roi": [
+    0.68,
+    0.22,
+    0.22,
+    0.2
+   ]
   },
   {
    "op": "sleep",
@@ -349,7 +415,13 @@
     "back_arrow.png"
    ],
    "timeoutMs": 900,
-   "goto": "start"
+   "goto": "start",
+   "roi": [
+    0.03,
+    0.02,
+    0.15,
+    0.13
+   ]
   },
   {
    "op": "sleep",
@@ -374,7 +446,13 @@
     "shop_dialog_ok.png"
    ],
    "timeoutMs": 1500,
-   "goto": "start"
+   "goto": "start",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "sleep",
@@ -404,7 +482,13 @@
    ],
    "timeoutMs": 2000,
    "thr": 0.86,
-   "goto": "start"
+   "goto": "start",
+   "roi": [
+    0.37,
+    0.61,
+    0.2,
+    0.15
+   ]
   },
   {
    "op": "sleep",
@@ -680,7 +764,13 @@
     "shop_dialog_ok.png"
    ],
    "timeoutMs": 1800,
-   "goto": "do_buy1"
+   "goto": "do_buy1",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "goto",
@@ -696,7 +786,13 @@
     "shop_dialog_ok.png"
    ],
    "timeoutMs": 1500,
-   "goto": "buy2"
+   "goto": "buy2",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "sleep",
@@ -721,7 +817,13 @@
     "shop_dialog_ok.png"
    ],
    "timeoutMs": 1800,
-   "goto": "do_buy2"
+   "goto": "do_buy2",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "goto",
@@ -737,7 +839,13 @@
     "shop_dialog_ok.png"
    ],
    "timeoutMs": 1500,
-   "goto": "buy3"
+   "goto": "buy3",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "sleep",
@@ -762,7 +870,13 @@
     "shop_dialog_ok.png"
    ],
    "timeoutMs": 1800,
-   "goto": "do_buy3"
+   "goto": "do_buy3",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "goto",
@@ -778,7 +892,13 @@
     "shop_dialog_ok.png"
    ],
    "timeoutMs": 1500,
-   "goto": "shop_leave"
+   "goto": "shop_leave",
+   "roi": [
+    0.36,
+    0.66,
+    0.22,
+    0.18
+   ]
   },
   {
    "op": "sleep",
@@ -817,49 +937,17 @@
     "back_arrow.png"
    ],
    "timeoutMs": 2000,
-   "goto": "start"
+   "goto": "start",
+   "roi": [
+    0.03,
+    0.02,
+    0.15,
+    0.13
+   ]
   },
   {
    "op": "sleep",
    "ms": 1700
-  },
-  {
-   "op": "goto",
-   "label": "start"
-  },
-  {
-   "op": "label",
-   "name": "tap_left_tpl"
-  },
-  {
-   "op": "add",
-   "var": "c",
-   "val": 1
-  },
-  {
-   "op": "ifgt",
-   "var": "c",
-   "val": 24,
-   "goto": "flip_right"
-  },
-  {
-   "op": "tap",
-   "t": [
-    "chapter_left.png"
-   ],
-   "roi": [
-    0.04,
-    0.34,
-    0.26,
-    0.32
-   ],
-   "thr": 0.88,
-   "timeoutMs": 700,
-   "goto": "chapter_nav"
-  },
-  {
-   "op": "sleep",
-   "ms": 650
   },
   {
    "op": "goto",
@@ -887,16 +975,30 @@
   },
   {
    "op": "tapxy",
-   "x": 0.158,
-   "y": 0.49
+   "x": 0.175,
+   "y": 0.556
   },
   {
    "op": "sleep",
-   "ms": 750
+   "ms": 620
+  },
+  {
+   "op": "if",
+   "t": [
+    "chapter7_node.png"
+   ],
+   "thr": 0.9,
+   "roi": [
+    0.55,
+    0.5,
+    0.25,
+    0.25
+   ],
+   "goto": "enter_stage"
   },
   {
    "op": "goto",
-   "label": "start"
+   "label": "chapter_nav"
   },
   {
    "op": "label",
@@ -912,14 +1014,6 @@
    "name": "fr_loop"
   },
   {
-   "op": "if",
-   "t": [
-    "chapter7_node.png"
-   ],
-   "thr": 0.9,
-   "goto": "enter_stage"
-  },
-  {
    "op": "add",
    "var": "c",
    "val": 1
@@ -931,40 +1025,27 @@
    "goto": "fail"
   },
   {
-   "op": "tap",
-   "t": [
-    "chapter_right.png"
-   ],
-   "roi": [
-    0.68,
-    0.34,
-    0.29,
-    0.32
-   ],
-   "thr": 0.88,
-   "timeoutMs": 700,
-   "goto": "fr_ratio"
-  },
-  {
-   "op": "sleep",
-   "ms": 750
-  },
-  {
-   "op": "goto",
-   "label": "fr_loop"
-  },
-  {
-   "op": "label",
-   "name": "fr_ratio"
-  },
-  {
    "op": "tapxy",
-   "x": 0.778,
-   "y": 0.493
+   "x": 0.82,
+   "y": 0.553
   },
   {
    "op": "sleep",
-   "ms": 750
+   "ms": 620
+  },
+  {
+   "op": "if",
+   "t": [
+    "chapter7_node.png"
+   ],
+   "thr": 0.9,
+   "roi": [
+    0.55,
+    0.5,
+    0.25,
+    0.25
+   ],
+   "goto": "enter_stage"
   },
   {
    "op": "goto",
@@ -990,7 +1071,13 @@
    ],
    "timeoutMs": 2500,
    "thr": 0.9,
-   "goto": "fail"
+   "goto": "fail",
+   "roi": [
+    0.55,
+    0.5,
+    0.25,
+    0.25
+   ]
   },
   {
    "op": "sleep",
