@@ -108,7 +108,7 @@
    "t": [
     "chapter7_node.png"
    ],
-   "thr": 0.9,
+   "thr": 0.78,
    "goto": "enter_stage",
    "roi": [
     0.55,
@@ -985,24 +985,9 @@
   {
    "op": "if",
    "t": [
-    "chapter7_node.png"
-   ],
-   "thr": 0.82,
-   "roi": [
-    0.55,
-    0.5,
-    0.25,
-    0.25
-   ],
-   "timeoutMs": 900,
-   "goto": "enter_stage"
-  },
-  {
-   "op": "if",
-   "t": [
     "chapter7_title.png"
    ],
-   "thr": 0.85,
+   "thr": 0.82,
    "roi": [
     0.15,
     0.08,
@@ -1010,6 +995,21 @@
     0.14
    ],
    "timeoutMs": 600,
+   "goto": "enter_stage"
+  },
+  {
+   "op": "if",
+   "t": [
+    "chapter7_node.png"
+   ],
+   "thr": 0.78,
+   "roi": [
+    0.55,
+    0.5,
+    0.25,
+    0.25
+   ],
+   "timeoutMs": 900,
    "goto": "enter_stage"
   },
   {
@@ -1052,24 +1052,9 @@
   {
    "op": "if",
    "t": [
-    "chapter7_node.png"
-   ],
-   "thr": 0.82,
-   "roi": [
-    0.55,
-    0.5,
-    0.25,
-    0.25
-   ],
-   "timeoutMs": 900,
-   "goto": "enter_stage"
-  },
-  {
-   "op": "if",
-   "t": [
     "chapter7_title.png"
    ],
-   "thr": 0.85,
+   "thr": 0.82,
    "roi": [
     0.15,
     0.08,
@@ -1077,6 +1062,21 @@
     0.14
    ],
    "timeoutMs": 600,
+   "goto": "enter_stage"
+  },
+  {
+   "op": "if",
+   "t": [
+    "chapter7_node.png"
+   ],
+   "thr": 0.78,
+   "roi": [
+    0.55,
+    0.5,
+    0.25,
+    0.25
+   ],
+   "timeoutMs": 900,
    "goto": "enter_stage"
   },
   {
@@ -1101,7 +1101,7 @@
    "t": [
     "chapter7_node.png"
    ],
-   "thr": 0.82,
+   "thr": 0.78,
    "roi": [
     0.55,
     0.5,
