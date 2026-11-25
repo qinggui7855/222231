@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
         root.setBackgroundColor(Color.rgb(250, 250, 252));
 
         TextView title = new TextView(this);
-        title.setText("星际农夫 v18 · 情系刀塔");
+        title.setText("星际农夫 v19 · 情系刀塔");
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         title.setTextColor(Color.rgb(20, 24, 40));
         root.addView(title);

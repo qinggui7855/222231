@@ -55,6 +55,28 @@
    "msg": "⚡ 星际商人来了，准备去采购"
   },
   {
+   "op": "log",
+   "msg": "⚡ 商人来了：连点两次右下双箭头"
+  },
+  {
+   "op": "tapxy",
+   "x": 0.788,
+   "y": 0.722
+  },
+  {
+   "op": "sleep",
+   "ms": 900
+  },
+  {
+   "op": "tapxy",
+   "x": 0.788,
+   "y": 0.722
+  },
+  {
+   "op": "sleep",
+   "ms": 1400
+  },
+  {
    "op": "goto",
    "label": "start2"
   },
@@ -190,17 +212,17 @@
   {
    "op": "if",
    "t": [
-    "campaign_btn.png"
+    "merchant_fig.png"
    ],
-   "thr": 0.88,
-   "goto": "campaign_seen"
+   "goto": "merchant_seen"
   },
   {
    "op": "if",
    "t": [
-    "merchant_fig.png"
+    "campaign_btn.png"
    ],
-   "goto": "merchant_seen"
+   "thr": 0.88,
+   "goto": "campaign_seen"
   },
   {
    "op": "if",
@@ -580,14 +602,8 @@
    "val": 0
   },
   {
-   "op": "ifgt",
-   "var": "d",
-   "val": 0,
-   "goto": "to_chapter"
-  },
-  {
    "op": "goto",
-   "label": "seek_merchant"
+   "label": "to_chapter"
   },
   {
    "op": "label",
@@ -614,78 +630,11 @@
    ],
    "timeoutMs": 2000,
    "thr": 0.88,
-   "goto": "start"
+   "goto": "hub_idle"
   },
   {
    "op": "sleep",
    "ms": 1900
-  },
-  {
-   "op": "goto",
-   "label": "start"
-  },
-  {
-   "op": "label",
-   "name": "seek_merchant"
-  },
-  {
-   "op": "set",
-   "var": "idle",
-   "val": 0
-  },
-  {
-   "op": "add",
-   "var": "m",
-   "val": 1
-  },
-  {
-   "op": "ifgt",
-   "var": "m",
-   "val": 3,
-   "goto": "seek_back"
-  },
-  {
-   "op": "swipe",
-   "x": 0.3,
-   "y": 0.55,
-   "x2": 0.82,
-   "y2": 0.55,
-   "ms": 350
-  },
-  {
-   "op": "sleep",
-   "ms": 700
-  },
-  {
-   "op": "goto",
-   "label": "start"
-  },
-  {
-   "op": "label",
-   "name": "seek_back"
-  },
-  {
-   "op": "add",
-   "var": "m",
-   "val": 1
-  },
-  {
-   "op": "ifgt",
-   "var": "m",
-   "val": 6,
-   "goto": "to_chapter"
-  },
-  {
-   "op": "swipe",
-   "x": 0.82,
-   "y": 0.55,
-   "x2": 0.3,
-   "y2": 0.55,
-   "ms": 350
-  },
-  {
-   "op": "sleep",
-   "ms": 700
   },
   {
    "op": "goto",
