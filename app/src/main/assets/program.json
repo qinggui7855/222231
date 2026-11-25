@@ -65,6 +65,22 @@
   {
    "op": "if",
    "t": [
+    "box_ok.png"
+   ],
+   "thr": 0.85,
+   "goto": "dismiss_box"
+  },
+  {
+   "op": "if",
+   "t": [
+    "sweep_close.png"
+   ],
+   "thr": 0.85,
+   "goto": "sweep_next"
+  },
+  {
+   "op": "if",
+   "t": [
     "sell_dialog_ok.png"
    ],
    "thr": 0.86,
@@ -402,6 +418,62 @@
   },
   {
    "op": "label",
+   "name": "dismiss_box"
+  },
+  {
+   "op": "set",
+   "var": "idle",
+   "val": 0
+  },
+  {
+   "op": "log",
+   "msg": "📦 关掉开箱详情（点确定）"
+  },
+  {
+   "op": "tap",
+   "t": [
+    "box_ok.png"
+   ],
+   "thr": 0.85,
+   "timeoutMs": 1500,
+   "goto": "start"
+  },
+  {
+   "op": "sleep",
+   "ms": 1000
+  },
+  {
+   "op": "goto",
+   "label": "start"
+  },
+  {
+   "op": "label",
+   "name": "sweep_next"
+  },
+  {
+   "op": "set",
+   "var": "idle",
+   "val": 0
+  },
+  {
+   "op": "log",
+   "msg": "🔁 扫荡结果页：点右下角继续"
+  },
+  {
+   "op": "tapxy",
+   "x": 0.8,
+   "y": 0.845
+  },
+  {
+   "op": "sleep",
+   "ms": 1600
+  },
+  {
+   "op": "goto",
+   "label": "start"
+  },
+  {
+   "op": "label",
    "name": "press_back"
   },
   {
@@ -509,17 +581,22 @@
   },
   {
    "op": "ifgt",
-   "var": "r",
+   "var": "d",
    "val": 0,
-   "goto": "seek_merchant"
+   "goto": "to_chapter"
   },
   {
    "op": "goto",
-   "label": "to_chapter"
+   "label": "seek_merchant"
   },
   {
    "op": "label",
    "name": "to_chapter"
+  },
+  {
+   "op": "set",
+   "var": "m",
+   "val": 0
   },
   {
    "op": "set",
@@ -564,8 +641,8 @@
   {
    "op": "ifgt",
    "var": "m",
-   "val": 10,
-   "goto": "trip_giveup"
+   "val": 3,
+   "goto": "seek_back"
   },
   {
    "op": "swipe",
@@ -577,7 +654,7 @@
   },
   {
    "op": "sleep",
-   "ms": 800
+   "ms": 700
   },
   {
    "op": "goto",
@@ -585,21 +662,30 @@
   },
   {
    "op": "label",
-   "name": "trip_giveup"
+   "name": "seek_back"
   },
   {
-   "op": "log",
-   "msg": "⚠ 没滑到商人，先回去刷图"
-  },
-  {
-   "op": "set",
-   "var": "r",
-   "val": 0
-  },
-  {
-   "op": "set",
+   "op": "add",
    "var": "m",
-   "val": 0
+   "val": 1
+  },
+  {
+   "op": "ifgt",
+   "var": "m",
+   "val": 6,
+   "goto": "to_chapter"
+  },
+  {
+   "op": "swipe",
+   "x": 0.82,
+   "y": 0.55,
+   "x2": 0.3,
+   "y2": 0.55,
+   "ms": 350
+  },
+  {
+   "op": "sleep",
+   "ms": 700
   },
   {
    "op": "goto",
@@ -911,6 +997,11 @@
   {
    "op": "label",
    "name": "shop_leave"
+  },
+  {
+   "op": "set",
+   "var": "m",
+   "val": 0
   },
   {
    "op": "set",
