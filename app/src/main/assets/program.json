@@ -980,20 +980,36 @@
   },
   {
    "op": "sleep",
-   "ms": 620
+   "ms": 520
   },
   {
    "op": "if",
    "t": [
     "chapter7_node.png"
    ],
-   "thr": 0.9,
+   "thr": 0.82,
    "roi": [
     0.55,
     0.5,
     0.25,
     0.25
    ],
+   "timeoutMs": 900,
+   "goto": "enter_stage"
+  },
+  {
+   "op": "if",
+   "t": [
+    "chapter7_title.png"
+   ],
+   "thr": 0.85,
+   "roi": [
+    0.15,
+    0.08,
+    0.26,
+    0.14
+   ],
+   "timeoutMs": 600,
    "goto": "enter_stage"
   },
   {
@@ -1031,20 +1047,36 @@
   },
   {
    "op": "sleep",
-   "ms": 620
+   "ms": 520
   },
   {
    "op": "if",
    "t": [
     "chapter7_node.png"
    ],
-   "thr": 0.9,
+   "thr": 0.82,
    "roi": [
     0.55,
     0.5,
     0.25,
     0.25
    ],
+   "timeoutMs": 900,
+   "goto": "enter_stage"
+  },
+  {
+   "op": "if",
+   "t": [
+    "chapter7_title.png"
+   ],
+   "thr": 0.85,
+   "roi": [
+    0.15,
+    0.08,
+    0.26,
+    0.14
+   ],
+   "timeoutMs": 600,
    "goto": "enter_stage"
   },
   {
@@ -1062,26 +1094,58 @@
   },
   {
    "op": "log",
-   "msg": "✅ 第七章，点关卡回副本页"
+   "msg": "✅ 到第七章了，点关卡进副本"
   },
   {
    "op": "tap",
    "t": [
     "chapter7_node.png"
    ],
-   "timeoutMs": 2500,
-   "thr": 0.9,
-   "goto": "fail",
+   "thr": 0.82,
    "roi": [
     0.55,
     0.5,
     0.25,
     0.25
-   ]
+   ],
+   "timeoutMs": 1500,
+   "goto": "node_by_ratio"
   },
   {
    "op": "sleep",
-   "ms": 2000
+   "ms": 1900
+  },
+  {
+   "op": "set",
+   "var": "d",
+   "val": 0
+  },
+  {
+   "op": "set",
+   "var": "r",
+   "val": 0
+  },
+  {
+   "op": "set",
+   "var": "c",
+   "val": 0
+  },
+  {
+   "op": "goto",
+   "label": "start"
+  },
+  {
+   "op": "label",
+   "name": "node_by_ratio"
+  },
+  {
+   "op": "tapxy",
+   "x": 0.678,
+   "y": 0.624
+  },
+  {
+   "op": "sleep",
+   "ms": 1900
   },
   {
    "op": "set",
